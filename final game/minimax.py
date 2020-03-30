@@ -38,8 +38,8 @@ def minimax(board, depth, ism, alpha, beta, target_len):
     score = wc.win_check(board, target_len) # Checking if Winner or Draw
     legal_moves = get_legal_moves(board)
 
-    if (depth > 4): # Depth huiristic
-        return -100
+    # if (depth > 4): # Depth huiristic
+    #     return -100
 
     if score == 10:
         return score - depth
@@ -58,6 +58,8 @@ def minimax(board, depth, ism, alpha, beta, target_len):
             curr_move = legal_moves[i]
             board[curr_move[0], curr_move[1]] = bm.team_A
             best = max(best, minimax(board, depth + 1, not ism, alpha, beta,target_len))
+            if (depth > 4):  # Depth huiristic
+                return best
             alpha = max(alpha, best)
             board[curr_move[0], curr_move[1]] = '_'
             if (alpha >= beta):
@@ -71,6 +73,8 @@ def minimax(board, depth, ism, alpha, beta, target_len):
             curr_move = legal_moves[i]
             board[curr_move[0], curr_move[1]] = bm.team_B
             best = min(best, minimax(board, depth + 1, not ism, alpha, beta,target_len))
+            if (depth > 4):  # Depth huiristic
+                return best
             beta = min(beta, best)
             board[curr_move[0], curr_move[1]] = '_'
             if (alpha >= beta):

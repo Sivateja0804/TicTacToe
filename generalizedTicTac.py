@@ -9,15 +9,37 @@ class Game:
     col = 0
 
 
-team_A = 'o'
-team_B = 'x'
+team_A = 'O'
+team_B = 'X'
 cache = {}
 
 
 def get_legal_moves(board):
-    b = np.asarray(board)
-    a, c = np.where(b == '_')
-    legal_moves = np.array(list(zip(a, c)))
+    il, jl = np.where(board != "_")
+    x_y = {}
+    for index in range(0, len(il)):
+        if jl[index] + 1 < len(board) and board[il[index], jl[index] + 1] == '_':
+            x_y[str(il[index]) + "," + str(jl[index] + 1)] = ""
+        if jl[index] - 1 >= 0 and board[il[index], jl[index] - 1] == '_':
+            x_y[str(il[index]) + "," + str(jl[index] - 1)] = ""
+        if il[index] - 1 >= 0 and board[il[index] - 1, jl[index]] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index])] = ""
+        if il[index] - 1 >= 0 and jl[index] - 1 >= 0 and board[il[index] - 1, jl[index] - 1] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index] - 1)] = ""
+        if il[index] - 1 >= 0 and jl[index] + 1 < len(board) and board[il[index] - 1, jl[index] + 1] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index] + 1)] = ""
+        if il[index] + 1 < len(board) and board[il[index] + 1, jl[index]] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index])] = ""
+        if il[index] + 1 < len(board) and jl[index] + 1 < len(board) and board[il[index] + 1, jl[index] + 1] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index] + 1)] = ""
+        if il[index] + 1 < len(board) and jl[index] - 1 >= 0 and board[il[index] + 1, jl[index] - 1] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index] - 1)] = ""
+        x = []
+        y = []
+        for k, v in x_y.items():
+            x.append(int(k.split(",")[0]))
+            y.append(int(k.split(",")[1]))
+    legal_moves = np.array(list(zip(x, y)))
     return legal_moves
 
 
@@ -121,25 +143,36 @@ def find_best_move(board, alpha, beta, win_row):
     bestMove = Game()
     bestMove.row = -1
     bestMove.col = -1
-    for i in range(0, len(board)):
-        for j in range(0, len(board)):
-            if (board[i][j] == '_'):
-                board[i][j] = team_A
-                moveVal = minimax_score_with_cache(board, 0, False, alpha, beta, win_row)
-                board[i][j] = '_'
-                if moveVal > bestVal:
-                    bestMove.row = i
-                    bestMove.col = j
-                    bestVal = moveVal
+    legal_moves = get_legal_moves(board)
+
+    for i in range(0, len(legal_moves)):
+        curr_move = legal_moves[i]
+        board[curr_move[0], curr_move[1]] = team_A
+        moveVal = minimax(board, 0, False, alpha, beta, win_row)
+        board[curr_move[0], curr_move[1]] = '_'
+        if moveVal > bestVal:
+            bestMove.row = curr_move[0]
+            bestMove.col = curr_move[1]
+            bestVal = moveVal
     return bestMove.row, bestMove.col
 
 
 if __name__ == '__main__':
     startTime = time.time()
-    rows = 4
-    col = 4
-    win_row = 4
+    rows = 12
+    col = 12
+    win_row = 12
     board = np.full((rows, col), "_")
+    board[0, 0] = 'X'
+    board[0, 1] = 'X'
+    board[0, 2] = 'X'
+    board[10, 4] = 'X'
+    board[10, 8] = 'X'
+    board[3, 0] = 'O'
+    board[3, 3] = 'O'
+    board[3, 5] = 'O'
+    board[8, 0] = 'O'
+    board[8, 8] = 'O'
     alpha = -sys.maxsize
     beta = sys.maxsize
     row, col = find_best_move(board, alpha, beta, win_row)

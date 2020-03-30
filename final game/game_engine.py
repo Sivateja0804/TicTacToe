@@ -2,16 +2,33 @@ import bestMove as bm
 import time
 import numpy as np
 import sys
+import API.GetBoardAPI as gb
+import API.MakeAMoveAPI as mmv
+import json
+
+def get_board(move,gameId):
+    data = gb.get_current_board(move, gameId)
+    data = json.loads(data)
+    rows = cols = 12
+    board = np.full((rows, cols), "_")
+    if data["output"]:
+        board_data=json.loads(data["output"])
+        # rows=cols=data["boardSize"]
+        for k, v in board_data.items():
+            board[int(k.split(",")[0]), int(k.split(",")[1])] = v
+    target=data["target"]
+
+    return board,target
 
 if __name__ == '__main__':
     startTime = time.time()
-    rows = 3
-    col = 3
-    target_len = 3
-    board = np.full((rows, col), "_")
+    gameId="351"
+    board,target=get_board("0,4", gameId)
     alpha = -sys.maxsize
     beta = sys.maxsize
-    row, col = bm.find_best_move(board, alpha, beta, target_len)
+    row, col = bm.find_best_move(board, alpha, beta, target)
     end = time.time()
     print(end - startTime)
     print(row, col)
+    mmv.make_a_move(str(row)+","+str(col),gameId)
+

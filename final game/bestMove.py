@@ -4,8 +4,8 @@ class Game:
     row = 0
     col = 0
 
-team_A = 'o'
-team_B = 'x'
+team_A = 'O'
+team_B = 'X'
 
 # find the best move
 def find_best_move(board, alpha, beta, target_len):

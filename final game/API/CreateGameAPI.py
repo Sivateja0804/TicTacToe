@@ -31,6 +31,20 @@ dataList.append('Content-Type: {}'.format('multipart/form-data'))
 dataList.append('')
 
 dataList.append("TTT")
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=boardSize;')
+
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append("12")
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=target;')
+
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append("5")
 dataList.append('--'+boundary+'--')
 dataList.append('')
 body = '\r\n'.join(dataList)

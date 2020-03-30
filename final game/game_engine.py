@@ -6,6 +6,7 @@ import API.GetBoardAPI as gb
 import API.MakeAMoveAPI as mmv
 import json
 
+# this will return the current board details.
 def get_board(move,gameId):
     data = gb.get_current_board(move, gameId)
     data = json.loads(data)
@@ -20,6 +21,7 @@ def get_board(move,gameId):
 
     return board,target
 
+# This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
     startTime = time.time()
     gameId="351"

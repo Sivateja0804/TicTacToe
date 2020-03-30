@@ -3,7 +3,7 @@ import bestMove as bm
 import numpy as np
 cache = {}
 
-# Getting all empty positions on board
+# Getting all empty positions on board which are neighbours to x and o's
 def get_legal_moves(board):
     il,jl=np.where(board!="_")
     x_y = {}

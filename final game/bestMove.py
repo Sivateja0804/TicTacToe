@@ -7,7 +7,7 @@ class Game:
 team_A = 'O'
 team_B = 'X'
 
-# find the best move
+# this function will do the min max algo and return the best move
 def find_best_move(board, alpha, beta, target_len):
     bestVal = -1000
     bestMove = Game()

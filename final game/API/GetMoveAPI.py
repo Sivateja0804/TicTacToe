@@ -1,19 +1,52 @@
-import requests
+import http.client
+import mimetypes
+conn = http.client.HTTPSConnection("www.notexponential.com")
+dataList = []
 
-url = "https://www.notexponential.com/aip2pgaming/api/index.php?gameId=332&type=moves&count=20"
+# params which we can use dynamically
+move = '3,4'
+gameId="320"
+number_of_moves="20"
 
-payload = {'teamId': '1198',
-'move': '3,4',
-'type': 'move',
-'gameId': '332'}
-files = [
+boundary = 'wL36Yn8afVp8Ag7AmP8qZ0SA4n1v9T'
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=teamId;')
 
-]
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append("1198")
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=move;')
+
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append(move)
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=type;')
+
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append("moves")
+dataList.append('--' + boundary)
+dataList.append('Content-Disposition: form-data; name=gameId;')
+
+dataList.append('Content-Type: {}'.format('multipart/form-data'))
+dataList.append('')
+
+dataList.append(gameId)
+dataList.append('--'+boundary+'--')
+dataList.append('')
+body = '\r\n'.join(dataList)
+payload = body
 headers = {
   'x-api-key': 'c390b1f5889a538eca88',
   'userID': '881',
-  "User-Agent": "Mozilla / 5.0(X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+  'Content-type': 'multipart/form-data; boundary={}'.format(boundary)
 }
-
-response = requests.get(url, headers=headers, data=payload)
-print(response.text)
+conn.request("GET", "/aip2pgaming/api/index.php?type=moves&gameId="+gameId+"&count="+number_of_moves+"", payload, headers)
+res = conn.getresponse()
+data = res.read()
+print(data.decode("utf-8"))

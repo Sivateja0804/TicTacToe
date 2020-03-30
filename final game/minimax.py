@@ -5,9 +5,31 @@ cache = {}
 
 # Getting all empty positions on board
 def get_legal_moves(board):
-    b = np.asarray(board)
-    a, c = np.where(b == '_')
-    legal_moves = np.array(list(zip(a, c)))
+    il,jl=np.where(board!="_")
+    x_y = {}
+    for index in range(0, len(il)):
+        if jl[index] + 1 < len(board) and board[il[index], jl[index] + 1] == '_':
+            x_y[str(il[index]) + "," + str(jl[index] + 1)] = ""
+        if jl[index] - 1 >= 0 and board[il[index], jl[index] - 1] == '_':
+            x_y[str(il[index]) + "," + str(jl[index] - 1)] = ""
+        if il[index] - 1 >= 0 and board[il[index] - 1, jl[index]] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index])] = ""
+        if il[index] - 1 >= 0 and jl[index] - 1 >= 0 and board[il[index] - 1, jl[index] - 1] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index] - 1)] = ""
+        if il[index] - 1 >= 0 and jl[index] + 1 < len(board) and board[il[index] - 1, jl[index] + 1] == '_':
+            x_y[str(il[index] - 1) + "," + str(jl[index] + 1)] = ""
+        if il[index] + 1 < len(board) and board[il[index] + 1, jl[index]] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index])] = ""
+        if il[index] + 1 < len(board) and jl[index] + 1 < len(board) and board[il[index] + 1, jl[index] + 1] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index] + 1)] = ""
+        if il[index] + 1 < len(board) and jl[index] - 1 >= 0 and board[il[index] + 1, jl[index] - 1] == '_':
+            x_y[str(il[index] + 1) + "," + str(jl[index] - 1)] = ""
+        x = []
+        y = []
+        for k, v in x_y.items():
+            x.append(int(k.split(",")[0]))
+            y.append(int(k.split(",")[1]))
+    legal_moves = np.array(list(zip(x, y)))
     return legal_moves
 
 

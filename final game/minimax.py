@@ -58,7 +58,7 @@ def get_legal_moves_from_opponent(board,team_B):
             if il[i] + 1 < len(board) and jl[i] - 1 >= 0 and board[il[i] + 1, jl[i] - 1] == team_B:
                 if il[i] + 2 < len(board) and jl[i] - 2 < len(board) and board[il[i] + 2, jl[i] - 2] == "_":
                     x_y[str(il[i] + 2) + "," + str(jl[i] - 2)] = ""
-                if il[i] - 1 >= 0 and jl[i] + 1 >= 0 and board[il[i] - 1, jl[i] + 1] == "_":
+                if il[i] - 1 >= 0 and jl[i] + 1 <len(board)  and board[il[i] - 1, jl[i] + 1] == "_":
                     x_y[str(il[i] - 1) + "," + str(jl[i] + 1)] = ""
     return x_y
 

@@ -39,8 +39,8 @@ if __name__ == '__main__':
         alpha = -sys.maxsize
         beta = sys.maxsize
         while(True):
-            turn = check_turn(gameId)
-            if turn == opponent_teamid :
+            last_move = check_turn(gameId)
+            if last_move == opponent_teamid :
                 row, col = bm.find_best_move(board, alpha, beta, target)
                 end = time.time()
                 print(end - startTime)

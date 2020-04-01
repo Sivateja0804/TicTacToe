@@ -3,6 +3,7 @@ import time
 import numpy as np
 import sys
 import API.GetBoardAPI as gb
+import API.GetMoveAPI as gm
 import API.MakeAMoveAPI as mmv
 import json
 
@@ -21,33 +22,32 @@ def get_board(move,gameId):
 
     return board,target
 
+def check_turn(gameId):
+    data = gm.get_prev_move(gameId)
+    data = json.loads(data)
+    return data["moves"][0]["teamId"]
+
 # This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
     startTime = time.time()
     gameId="763"
+    opponent_teamid = "1197"
     board, target = get_board("0,4", gameId)
     if np.all(board == board[0,:]):
         mmv.make_a_move(str(5) + "," + str(5), gameId)
     else:
-        board = [['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' 'X' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' 'O' 'O' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' 'O' 'O' 'X' 'O' 'O' 'O' '_' '_' '_' '_'],
-         ['_' '_' 'O' 'X' 'X' 'O' 'X' '_' '_' '_' '_' '_'],
-         ['_' '_' 'X' 'X' '_' 'X' 'X' 'X' 'O' '_' '_' '_'],
-         ['_' '_' '_' '_' 'X' 'O' 'O' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
-         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_']]
-        board = np.asarray(board)
         alpha = -sys.maxsize
         beta = sys.maxsize
-        row, col = bm.find_best_move(board, alpha, beta, 6)
-        end = time.time()
-        print(end - startTime)
-        print(row, col)
-        mmv.make_a_move(str(row)+","+str(col),gameId)
-        board, target = get_board("0,4", gameId)
-        print(board)
+        while(True):
+            turn = check_turn(gameId)
+            if turn == opponent_teamid :
+                row, col = bm.find_best_move(board, alpha, beta, target)
+                end = time.time()
+                print(end - startTime)
+                print(row, col)
+                data = mmv.make_a_move(str(row) + "," + str(col), gameId)
+                board, target = get_board("0,4", gameId)
+                print(board)
+                data = json.loads(data)
+                if data["message"] == "Cannot make move - Game is no longer open: " + gameId + "":
+                    break

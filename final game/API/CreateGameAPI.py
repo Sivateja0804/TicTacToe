@@ -16,7 +16,7 @@ dataList.append('Content-Disposition: form-data; name=teamId2;')
 dataList.append('Content-Type: {}'.format('multipart/form-data'))
 dataList.append('')
 
-dataList.append("1231")
+dataList.append("1197")
 dataList.append('--' + boundary)
 dataList.append('Content-Disposition: form-data; name=type;')
 
@@ -44,7 +44,7 @@ dataList.append('Content-Disposition: form-data; name=target;')
 dataList.append('Content-Type: {}'.format('multipart/form-data'))
 dataList.append('')
 
-dataList.append("5")
+dataList.append("6")
 dataList.append('--'+boundary+'--')
 dataList.append('')
 body = '\r\n'.join(dataList)

@@ -24,13 +24,30 @@ def get_board(move,gameId):
 # This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
     startTime = time.time()
-    gameId="351"
-    board,target=get_board("0,4", gameId)
-    alpha = -sys.maxsize
-    beta = sys.maxsize
-    row, col = bm.find_best_move(board, alpha, beta, target)
-    end = time.time()
-    print(end - startTime)
-    print(row, col)
-    mmv.make_a_move(str(row)+","+str(col),gameId)
-
+    gameId="763"
+    board, target = get_board("0,4", gameId)
+    if np.all(board == board[0,:]):
+        mmv.make_a_move(str(5) + "," + str(5), gameId)
+    else:
+        board = [['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' 'X' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' 'O' 'O' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' 'O' 'O' 'X' 'O' 'O' 'O' '_' '_' '_' '_'],
+         ['_' '_' 'O' 'X' 'X' 'O' 'X' '_' '_' '_' '_' '_'],
+         ['_' '_' 'X' 'X' '_' 'X' 'X' 'X' 'O' '_' '_' '_'],
+         ['_' '_' '_' '_' 'X' 'O' 'O' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_'],
+         ['_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_' '_']]
+        board = np.asarray(board)
+        alpha = -sys.maxsize
+        beta = sys.maxsize
+        row, col = bm.find_best_move(board, alpha, beta, 6)
+        end = time.time()
+        print(end - startTime)
+        print(row, col)
+        mmv.make_a_move(str(row)+","+str(col),gameId)
+        board, target = get_board("0,4", gameId)
+        print(board)

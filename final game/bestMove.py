@@ -4,11 +4,9 @@ class Game:
     row = 0
     col = 0
 
-team_A = 'O'
-team_B = 'X'
-
 # this function will do the min max algo and return the best move
-def find_best_move(board, alpha, beta, target_len):
+def find_best_move(board, alpha, beta, target_len,team_A,team_B):
+
     bestVal = -1000
     bestMove = Game()
     bestMove.row = -1

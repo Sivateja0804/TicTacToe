@@ -2,9 +2,9 @@ import bestMove as bm
 import numpy as np
 
 #this will return 10 if X or 0's successfully formed sequence with target_len or else it will return -10
-def win_check(board, target_len):
-    a = bm.team_A * target_len
-    b = bm.team_B * target_len
+def win_check(board, target_len,team_A,team_B):
+    a = team_A * target_len
+    b = team_B * target_len
 
     # Checking for Rows for X or O victory
     for row in range(0, len(board)):

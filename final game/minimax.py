@@ -66,7 +66,7 @@ def get_legal_moves_from_opponent(board,team_B):
 
 def minimax(board, depth, ism, alpha, beta, target_len,team_A,team_B):
 
-    score = wc.win_check(board, target_len) # Checking if Winner or Draw
+    score = wc.win_check(board, target_len,team_A,team_B) # Checking if Winner or Draw
     legal_moves = get_legal_moves(board,team_A,team_B)
 
     if score == 10:

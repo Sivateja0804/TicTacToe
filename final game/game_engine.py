@@ -32,6 +32,8 @@ if __name__ == '__main__':
     startTime = time.time()
     gameId="763"
     opponent_teamid = "1197"
+    team_A = 'O' #My Team
+    team_B = 'X' #Opponent Team
     board, target = get_board("0,4", gameId)
     if np.all(board == board[0,:]):
         mmv.make_a_move(str(5) + "," + str(5), gameId)
@@ -41,7 +43,7 @@ if __name__ == '__main__':
         while(True):
             last_move = check_turn(gameId)
             if last_move == opponent_teamid :
-                row, col = bm.find_best_move(board, alpha, beta, target)
+                row, col = bm.find_best_move(board, alpha, beta, target,team_A,team_B)
                 end = time.time()
                 print(end - startTime)
                 print(row, col)

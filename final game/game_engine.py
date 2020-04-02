@@ -31,9 +31,8 @@ def check_move(gameId):
 # This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
 
-    startTime = time.time()
-    gameId="763"
-    opponent_teamid = "1197"
+    gameId="909"
+    opponent_teamid = "1201"
     team_A = 'O' #My Team
     team_B = 'X' #Opponent Team
     board, target = get_board("0,4", gameId)
@@ -41,11 +40,15 @@ if __name__ == '__main__':
     alpha = -sys.maxsize
     beta = sys.maxsize
     while(True):
+
         if np.all(board == board[0, :]):
             mmv.make_a_move(str(6) + "," + str(6), gameId)
+            board, target = get_board("0,4", gameId)
         else:
             last_move = check_move(gameId)
             if last_move == opponent_teamid :
+                startTime = time.time()
+                board, target = get_board("0,4", gameId)
                 row, col = bm.find_best_move(board, alpha, beta, target,team_A,team_B)
                 end = time.time()
                 print(end - startTime)
@@ -55,5 +58,7 @@ if __name__ == '__main__':
                 print(board)
                 data = json.loads(data)
                 # Loop Termination Condition
-                if data["message"] == "Cannot make move - Game is no longer open: " + gameId + "":
+                if "message" in data.keys() and data["message"] == "Cannot make move - Game is no longer open: " + gameId + "":
                     break
+
+            time.sleep(3)

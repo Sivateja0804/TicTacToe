@@ -7,7 +7,7 @@ import API.GetMoveAPI as gm
 import API.MakeAMoveAPI as mmv
 import json
 
-# this will return the current board details.
+# This will return the current board details.
 def get_board(move,gameId):
     data = gb.get_current_board(move, gameId)
     data = json.loads(data)
@@ -22,26 +22,29 @@ def get_board(move,gameId):
 
     return board,target
 
-def check_turn(gameId):
+# This is used to check if opponent has placed his move or not
+def check_move(gameId):
     data = gm.get_prev_move(gameId)
     data = json.loads(data)
     return data["moves"][0]["teamId"]
 
 # This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
+
     startTime = time.time()
     gameId="763"
     opponent_teamid = "1197"
     team_A = 'O' #My Team
     team_B = 'X' #Opponent Team
     board, target = get_board("0,4", gameId)
-    if np.all(board == board[0,:]):
-        mmv.make_a_move(str(5) + "," + str(5), gameId)
-    else:
-        alpha = -sys.maxsize
-        beta = sys.maxsize
-        while(True):
-            last_move = check_turn(gameId)
+
+    alpha = -sys.maxsize
+    beta = sys.maxsize
+    while(True):
+        if np.all(board == board[0, :]):
+            mmv.make_a_move(str(6) + "," + str(6), gameId)
+        else:
+            last_move = check_move(gameId)
             if last_move == opponent_teamid :
                 row, col = bm.find_best_move(board, alpha, beta, target,team_A,team_B)
                 end = time.time()
@@ -51,5 +54,6 @@ if __name__ == '__main__':
                 board, target = get_board("0,4", gameId)
                 print(board)
                 data = json.loads(data)
+                # Loop Termination Condition
                 if data["message"] == "Cannot make move - Game is no longer open: " + gameId + "":
                     break

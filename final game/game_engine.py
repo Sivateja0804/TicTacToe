@@ -31,8 +31,8 @@ def check_move(gameId):
 # This is the main method we call and returns i,j index for the matrix
 if __name__ == '__main__':
 
-    gameId="909"
-    opponent_teamid = "1201"
+    gameId="928"
+    opponent_teamid = "1213"
     team_A = 'O' #My Team
     team_B = 'X' #Opponent Team
     board, target = get_board("0,4", gameId)

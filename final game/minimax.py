@@ -84,12 +84,12 @@ def minimax(board, depth, ism, alpha, beta, target_len,team_A,team_B):
         best = -1000
         for i in range(0, len(legal_moves)):
             curr_move = legal_moves[i]
-            board[curr_move[0], curr_move[1]] = bm.team_A
+            board[curr_move[0], curr_move[1]] = team_A
             best = max(best, minimax(board, depth + 1, not ism, alpha, beta,target_len,team_A,team_B))
+            board[curr_move[0], curr_move[1]] = '_'
             if (depth > 9):  # Depth hueristic
                 return best
             alpha = max(alpha, best)
-            board[curr_move[0], curr_move[1]] = '_'
             if (alpha >= beta):
                 break
         return best
@@ -99,12 +99,12 @@ def minimax(board, depth, ism, alpha, beta, target_len,team_A,team_B):
         best = 1000
         for i in range(0, len(legal_moves)):
             curr_move = legal_moves[i]
-            board[curr_move[0], curr_move[1]] = bm.team_B
+            board[curr_move[0], curr_move[1]] = team_B
             best = min(best, minimax(board, depth + 1, not ism, alpha, beta,target_len,team_A,team_B))
+            board[curr_move[0], curr_move[1]] = '_'
             if (depth > 9):  # Depth hueristic
                 return best
             beta = min(beta, best)
-            board[curr_move[0], curr_move[1]] = '_'
             if (alpha >= beta):
                 break
         return best
